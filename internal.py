@@ -39,7 +39,7 @@ sg.theme('DarkMode')
 #Define Constants for Request.
 api_key = "c8728ceb75d6d63673ef6306ae4d66e3" #change this later
 # define time variable for caching
-cache_time = 1.0 # seconds but in float cuz time is in float
+cache_time = 300.0 # seconds but in float cuz time is in float
 
 current_time = time.time()
 time_to_live = current_time + cache_time
@@ -106,25 +106,25 @@ layout = [
     [sg.T("Enter Location: "), sg.In(key='cityI')],
     [sg.B("Show")],
     [sg.T("")],
-    [sg.T("Current Time[SYS]: "), sg.T(size=(26,1), key='current_time')],
-    [sg.T("Time To Live[SYS]: "), sg.T(size=(26,1), key='ttl')],
-    [sg.T("Pictorial Representation[SYS+API]:"),sg.Image(data=logo, background_color=image_background, key='icon'), sg.T("")], # there is a logo to prevent the window from being out of alignment
-    [sg.T("Location[API]: "), sg.T(size=(24,1),key='cityT')], 
-    [sg.T("DateAtLocation[API]: "), sg.T(size=(24,1),key='locDate')],
-    [sg.T("Sunrise[API]: "), sg.T(size=(24,1),key='timerise')],
-    [sg.T("Sunset[API]: "), sg.T(size=(24,1),key='timeset')],
-    [sg.T("Temprature[API]: "), sg.T(size=(24,1),key='temp')],
-    [sg.T("TempratureMax[API]: "), sg.T(size=(24,1),key='tempmax')],
-    [sg.T("TempratureMin[API]: "), sg.T(size=(24,1),key='tempmin')],
-    [sg.T("TempratureFeels[API]: "), sg.T(size=(24,1),key='tempfeels')],
-    [sg.T("Pressure[API]: "), sg.T(size=(24,1),key='pres')],
-    [sg.T("Humidity[API]: "), sg.T(size=(24,1),key='hum')],
-    [sg.T("Main Description[API]: "), sg.T(size=(24,1),key='main')],
-    [sg.T("Additional Description[API]: "), sg.T(size=(24,1),key='desc')],
-    [sg.T("WindSpeed[API]: "), sg.T(size=(24,1),key='wspeed')],
-    [sg.T("WindDeg[API]: "), sg.T(size=(24,1),key='wdeg')],
-    [sg.T("Latitude[API]: "), sg.T(size=(24,1),key='lat')],
-    [sg.T("longitude[API]: "), sg.T(size=(24,1),key='lon')],
+    [sg.T("Current Time[SYS]: ",size=(29,1)), sg.T(size=(26,1), key='current_time')],
+    [sg.T("Time To Live[SYS]: ",size=(29,1)), sg.T(size=(26,1), key='ttl')],
+    [sg.T("Pictorial Representation[SYS+API]:",size=(29,1)),sg.Image(data=logo, background_color=image_background, key='icon'), sg.T("")], # there is a logo to prevent the window from being out of alignment when no request has been made
+    [sg.T("Location[API]: ",size=(29,1)), sg.T(size=(24,1),key='cityT')], 
+    [sg.T("DateAtLocation[API]: ",size=(29,1)), sg.T(size=(24,1),key='locDate')],
+    [sg.T("Sunrise[API]: ",size=(29,1)), sg.T(size=(24,1),key='timerise')],
+    [sg.T("Sunset[API]: ",size=(29,1)), sg.T(size=(24,1),key='timeset')],
+    [sg.T("Temprature[API]: ",size=(29,1)), sg.T(size=(24,1),key='temp')],
+    [sg.T("TempratureFeels[API]: ",size=(29,1)), sg.T(size=(24,1),key='tempfeels')],
+    [sg.T("TempratureMax[API]: ",size=(29,1)), sg.T(size=(24,1),key='tempmax')],
+    [sg.T("TempratureMin[API]: ",size=(29,1)), sg.T(size=(24,1),key='tempmin')],
+    [sg.T("Pressure[API]: ",size=(29,1)), sg.T(size=(24,1),key='pres')],
+    [sg.T("Humidity[API]: ",size=(29,1)), sg.T(size=(24,1),key='hum')],
+    [sg.T("Main Description[API]: ",size=(29,1)), sg.T(size=(24,1),key='main')],
+    [sg.T("Additional Description[API]: ",size=(29,1)), sg.T(size=(24,1),key='desc')],
+    [sg.T("WindSpeed[API]: ",size=(29,1)), sg.T(size=(24,1),key='wspeed')],
+    [sg.T("WindDeg[API]: ",size=(29,1)), sg.T(size=(24,1),key='wdeg')],
+    [sg.T("Latitude[API]: ",size=(29,1)), sg.T(size=(24,1),key='lat')],
+    [sg.T("longitude[API]: ",size=(29,1)), sg.T(size=(24,1),key='lon')],
     
 
 ] # this is the GUI layout for the window
@@ -164,8 +164,8 @@ while True:  # Event Loop
             window['hum'](humidity)
             window['main'](main_desc)
             window['desc'](description)
-            window['wspeed'](response['wind']['speed'])
-            window['wdeg'](response['wind']['deg'])
+            window['wspeed'](str(response['wind']['speed']) + " m/s")
+            window['wdeg'](str(response['wind']['deg']) + "°")
             window['lat'](str(response['coord']['lat']) + " °N")
             window['lon'](str(response['coord']['lon']) + " °E")
         except :
