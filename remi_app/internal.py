@@ -1,5 +1,5 @@
 import requests
-import PySimpleGUI as sg
+import PySimpleGUIWeb as sg
 import time 
 import sys
 from icons import icondict as icon
@@ -104,7 +104,7 @@ def getTempratureReadout(temp_in):
 
 layout = [
     [sg.T("Enter Location: "), sg.In(key='cityI')],
-    [sg.B("Show")],
+    [sg.B("Show"), sg.T("To Quit please close this window or tab.")],
     [sg.T("")],
     [sg.T("Current Time[SYS]: ",size=(29,1)), sg.T(size=(26,1), key='current_time')],
     [sg.T("Time To Live[SYS]: ",size=(29,1)), sg.T(size=(26,1), key='ttl')],
@@ -126,15 +126,16 @@ layout = [
     [sg.T("Latitude[API]: ",size=(29,1)), sg.T(size=(24,1),key='lat')],
     [sg.T("longitude[API]: ",size=(29,1)), sg.T(size=(24,1),key='lon')],
     
+    
 
 ] # this is the GUI layout for the window
 
-window = sg.Window("DevParapalli Weather OWM", layout) # define Window Object
+window = sg.Window("DevParapalli Weather OWM", layout, no_titlebar=True, grab_anywhere=True, web_port=42069) # define Window Object
 
 while True:  # Event Loop
     event, values = window.read()       # can also be written as event, values = window()
     print(event, values) # debugging, do not remove
-    if event is None or event == 'Exit': # if close button is pressed
+    if event in (None, 'Quit', 'Quit_alt'): # if close button is pressed
         break
     if event == 'Show': # If button is pressed
         try:
@@ -169,6 +170,6 @@ while True:  # Event Loop
             window['lat'](str(response['coord']['lat']) + " °N")
             window['lon'](str(response['coord']['lon']) + " °E")
         except :
-            sg.PopupError("Malformed Request/Network Error")
+            sg.PopupError("Malformed Request/Network Error", "Press \"Error\" Button to continue")
 
 

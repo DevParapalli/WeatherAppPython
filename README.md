@@ -1,10 +1,9 @@
 # SchoolPythonProject
 DevParapalli, Project for GHRV, CBSE 
 
-Requirements
+### Requirements
 - Requests
-- PySimpleGUI
-
-Usage:
-- Type in the city name and click sumbit to get weather data.
+- PySimpleGUI       ``` for tkinter version ```
+- PySimpleGUIWeb    ``` for Remi version ```
+- PySimpleGUIQt     ``` for Qt version ```
 

@@ -13,7 +13,7 @@ except ImportError:
     install("requests")
 
 try: 
-    import PySimpleGUI
+    import PySimpleGUIQt
 except ImportError:
     install("PySimpleGUI")
 
@@ -26,12 +26,12 @@ except:
 try:
     import icons
 except:
-    print("Icons not found")
+    print("Icons (Base64) not found")
     exit()
 
 try:
     import internal
-except:
+except KeyError:
     print("GUI_API not found")
     exit()
 
