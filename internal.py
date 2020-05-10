@@ -138,7 +138,7 @@ while True:  # Event Loop
         break
     if event == 'Show': # If button is pressed
         try:
-            # change the "output" element to be the value of "input" element
+            # change the "output" element to be the value of "input" element's API's coresponding response
             city_name = values['cityI']
             response, city_cname, cached_response, current_time, time_to_live  = getData(city_name, city_cname, cached_response, time_to_live)
             #print(response)            
@@ -146,7 +146,7 @@ while True:  # Event Loop
             humidity = str(response['main']['humidity']) + " %" # data formatting
             main_desc = str(response['weather'][0]['main'])
             description = str(response['weather'][0]["description"])
-            icon_details = getIconData(getIconVariable(str(response['weather'][0]["icon"]))) # i am high
+            icon_details = getIconData(getIconVariable(str(response['weather'][0]["icon"]))) # i am high as a kite
             window['current_time'](time.ctime(current_time))
             window['ttl'](time.ctime(time_to_live))
             window.Element('icon').Update(data=icon_details)
