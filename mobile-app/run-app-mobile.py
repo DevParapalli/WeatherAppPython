@@ -1,5 +1,6 @@
 import os 
 import sys
+import ast
 import time
 import subprocess
 
@@ -101,7 +102,8 @@ sg.theme('DarkMode')
 # Define Custom Functions
 
 #Define Constants for Request.
-api_key = "c8728ceb75d6d63673ef6306ae4d66e3" #change this later
+api_key_file = ast.literal_eval(open("api-key.txt", "r").read()) #change this later
+api_key = api_key_file["api-key"]
 # define time variable for caching
 cache_time = 300.0 # seconds but in float cuz time is in float
 

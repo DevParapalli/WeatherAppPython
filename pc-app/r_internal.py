@@ -2,6 +2,7 @@ import requests
 import PySimpleGUIWeb as sg
 import time 
 import sys
+import ast
 from icons import icondict as icon
 from logo import logo as logo
 '''
@@ -37,7 +38,8 @@ sg.theme('DarkMode')
 # Define Custom Functions
 
 #Define Constants for Request.
-api_key = "c8728ceb75d6d63673ef6306ae4d66e3" #change this later
+api_key_file = ast.literal_eval(open("api-key.txt", "r").read()) #change this later
+api_key = api_key_file["api-key"] #change this later
 # define time variable for caching
 cache_time = 300.0 # seconds but in float cuz time is in float
 
