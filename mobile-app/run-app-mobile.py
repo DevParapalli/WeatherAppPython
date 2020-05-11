@@ -1,3 +1,42 @@
+import os 
+import sys
+import time
+import subprocess
+
+def install(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+try:
+    import requests
+    print("Import Requests Success.")
+except ImportError:
+    print("requests module not installed")
+    print("Installing requests")
+    install("requests")
+import tkinter 
+try:
+    import PySimpleGUI as sg
+    print("Import PySimpleGUI Sucess.")
+except ImportError:
+    print("PySimpleGUI module not installed")
+    print("Installing PySimpleGUI")
+    install("PySimpleGUI")
+# printing menu
+def load_data(): # removed data
+    pass
+
+print("-----------------------------------------")
+print("DevParapalli App Launcher")
+print("Procedurally generating buttons")
+load_data()
+print("Loading Icons and Images")
+
+
+
+# loading images
+
+logo = b'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'
+
+
 icondict = {
 "d01" : b'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAADe0lEQVR4nO3cWahNURzH8a8picg1hqLEC4UMGe6DKfMDhaQkojwpRZQHxZs3PChSui+elGSWkHnMTB5MV0mUISQUrSy6xO24Z6//f+38PnW6t+5t/9Y5v3P2uPZBRERERERERERERERERERERERERMRMM6ugl8tnFLWoGqAWGAoMBHoAHePfmgNvgBfATeA6cAZ4XERw5837ilhMo1omTyhGf2AiMB6YArStYKlTG/x+Agiv5mngQs5PNPdC+gDrgQVVLmdsfATHgbXAuQLGV7jmOQ4K6ALUAQ8KKON344CzwDFgeMHLrlqOhcwD7sQiUm7jwurvIrAqYcY/y62QbcCusP00zNwInMpl9Z1TIYeApU7ZtfFT2dsp/6ccCmkZN7STncfRL67CXEvJoZDDDfaAvHUFznuuvrwL2R43rjnpDlwCWnmMybOQWcASx/zGDAY2eAR7FdIe2OmUXanVHqtSr0K2x1JyZ/6m8SikEzDXIbcpwh7XdMtAj0K2OmRWYwfQwirMupDwjptjnFmtbsAkqzDrQqZW8D85mmY1JutCphjnFWW+1cGiZSHtrDeQBaqJp+2TsyxkbImuUP6JyafbspCRhlkpDLEIsSxkgGFWCl0sQiwL6WmYlUIlEyuqZllIB8OsFFpbhFgW8tUwq7QsC8l1hktWLF+k9yV4PRrzxSLEspBnhlkpvLMIsSzknmFWCq8tQiwLuWyYlcIdixDLQo4ZZqVw1CLEspDncfZ5GX2KE/mSs94V3VvSQnYDby2CrAsx+dgnsN8qyLqQa3G6Zpl8Bg5Yjdfj6HmxQ2Y1wu0Kr6zCPAq5XaJd4A/AJstAr/NLi5xy/9Vy60CvQm4Ba5yyK7Unzsky5XkGdmO81y9H4dbqZR7j8iwkXB8ZA9Q7juFvRsUDWXM5XKMYHb5XIINx/BDu5LrrFZ5DIU+BEcCjDMYS5o0d8RxALlfxHsZZKVed8sNxxiDLA8C/yemyatjnHxm/ucFSXbxj6obv0/8ut+vc4TTFujhL8ErirPp4nLEQeJI4q2K5TjwId+YOA2YD9wtedjhruxLoC2wpeNlVy32u7e74mAlMiD97NWE57+KBXthgH8xsr+4XZZn8vCc+VjT4mqYhcXpnmFXfJv5f+G6Uj3F79DJedj0Zr1ZmW4KIiIiIiIiIiIiIiIiIiIiIiIjI/wH4BqdEdDZEJK4oAAAAAElFTkSuQmCC',
 "n01" : b'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAADeElEQVR4nO3cWYiOURzH8a8tichYQ1HihkKWbBe2GNxQlEQiypVSRLlQ3LmTC2UpceFKSZZBQvY1O7mwl0RZQkLRyaEhxjve5/z/58nvU2+jTM/vzPzmfbZznhcRERERERERERERERERERERERERETNNrIJqa6cUtakaYDQwGOgPdAPax/9rCrwGngPXgavAKeBhEcF1dfuL2EyDmidPKEZfYAIwLnQLtK5gq5Pr/fsYsBc4CZzL+QfNvZBewBpgbpXbGRNfwVFgFXCmgPEVrmmOgwI6ATuAewWU8auxwGngCDC04G1XLcdCZgG3gDmJj3Fh93ceWJ4wo9FyK2QTsBPoaJi5DjiRy+47p0LqgEVO2aPju7KnU/4PORTSPB5oJzmPo0/chbmWkkMhB+udAXnrDJz13H15F7I5Hlxz0hW4ALTwGJNnIdOBhY75DRkIrPUI9iqkLbDNKbtSKzx2pV6FbIml5M78j8ajkA7ATIfcfxHOuKZaBnoUstEhsxpbgWZWYdaF9CzRu+O7LsBEqzDrQiZX8D05Kmwy52+sC6k1zivKbKuLRctC2lgfIAtUE2/bJ2dZyJgSzVD+jsm727KQ4YZZKQyyCLEspJ9hVgqdLEIsC+lumJVCJQsrqmZZSDvDrBRaWoRYFvLFMKu0LAvJdYVLVix/Se9K8PtoyGeLEMtCnhpmpfDWIsSykDuGWSm8sgixLOSiYVYKtyxCLAs5YpiVwmGLEMtCnsXV52X0MS7kS876VHRPSQvZBbyxCLIuxORtn8A+qyDrQq7E5Zpl8glI/+hU5HH1vMAhsxrhcYWXVmEehdws0Snwe2C9ZaDX/aX5TrmNtcQ60KuQG8BKp+xK7Y5rskx53oFdF5/1y1F4tHqxx7g8CwnzI6OAx45j+JMR8ULWXA5zFCOBFxmM47vwJNdtr/AcCnkCDAMeZDCWsG7skOcAcpnFux9XpVx2yg/XGQMsLwD/JKdp1XDOPzx+coOl7fGJqWu+P/43uc1zh9sUq+MqwUuJsx7H64x5wKPEWRXLdeFBeDJ3CDADuFvwtsNd22VAb2BDwduuWu5rbXfF1zRgfPza4x+28zZe6IUD9oHMzup+UpbFz7vja2m9j2kaFJd3hlX1reL3hc9G+RCPRy/itOvxOFuZbQkiIiIiIiIiIiIiIiIiIiIiIiIi/wfgKw42dDZq2n0SAAAAAElFTkSuQmCC',
@@ -19,3 +58,175 @@ icondict = {
 "n50" : b'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAACUUlEQVR4nO3aTYiNURjA8f81ykc+RykWVuzERllIysZQYmnH2oKi2Ngoa9kqydpGLDQjq1nYCGVBTREWjHwtRETSW2dqRvfeuh/nnMfc/69ud/We53nvc8+5zz3nRZIkSZIkSZIkSZIkSZIkSZIkSZIWrVbOG5uYODTI5TuBaWAN8LWP61cDn4G9wLNBEvnX5OTdYQ63wNJsIw9ufyoG6cPtx3gaZ6gFySlyQa4Cu4FtwJc+rl8PzADXM+SWTeSCfAeOBcijqCUjdK//BQsSTMklaxdwCfgN/Cz8MaxKHdcp4EPh2D0pWZAzwIGC8dp5A5yvnENXJQtyD9gDfEyzpKRlwApgqnDcnpUsyI30Uhf+qAdjQYKJ+sdwHXAEWFmhI+uk+fIuBx4Aj3MFiVqQC8DZAHm0MwtsyjV41CXrbYAcOnmXc/CoM+QycDu1qqVb5E6ao4ox4HXOIJE3F18EyKE4u6xgcs+Q7cDBtJX+J8itt9LBV7MkPg+QzwK5C3IL2Jo5Rr8Op62cUHIvWTPRbniel2EymSf3DDkK7Eibe1G6pbkv4dPKebSVuyC/gEeZYywqdlnB1P4fshY4DWxInVgErfT40E3gful8ahfkCnCicg6dHAe2AO9LBq29ZL2qHL+b5rj3U+mgtWfIReAOsBn4UTmXOa3UFT6s0RlG2Mt6kl4jD7useKLu9m4ETqalY9gnhmPpJPLaKO5l9as5LTyXOUbz4N6+zDF6FrUgs+n9W4Zd4lZ6kjFyhydJkiRJkiRJkiRJkiRJkiRJkiRpYMBfS4pFdt7boNAAAAAASUVORK5CYII=',
 
 }
+
+
+load_data()
+print("Looking up C.I.A. Identifier")
+load_data()
+print("Hold Tight - Loading Application.")
+load_data()
+print("Finished Lookup")
+time.sleep(1)
+print("Launching Application")
+print("Defaulting to tkinter")
+print("Selecting tkinter...")
+print("-----------------------------------------")
+
+
+
+image_background = "#2D2D2D"
+primary = "#BB86FC"
+primary_variant = "#3700B3"
+secondary = "#03DAC6"
+background = "#121212"
+surface = "#1F1B24"
+error_bg = "#CF6679"
+on_primary = "#000000"
+on_secondary = "#000000"
+on_background = "#FFFFFF"
+on_surface = "#FFFFFF"
+on_error_bg = "#000000"
+# Define theme
+sg.LOOK_AND_FEEL_TABLE['DarkMode'] = {'BACKGROUND': background,
+                                        'TEXT': on_surface,
+                                        'INPUT': surface,
+                                        'TEXT_INPUT': on_background,
+                                        'SCROLL': surface,
+                                        'BUTTON': (on_primary, primary),
+                                        'PROGRESS': (primary, background),
+                                        'BORDER': 0, 'SLIDER_DEPTH': 0, 'PROGRESS_DEPTH': 0,
+                                        }
+# Apply theme
+sg.theme('DarkMode')
+# Define Custom Functions
+
+#Define Constants for Request.
+api_key = "c8728ceb75d6d63673ef6306ae4d66e3" #change this later
+# define time variable for caching
+cache_time = 300.0 # seconds but in float cuz time is in float
+
+current_time = time.time()
+time_to_live = current_time + cache_time
+cached_response = ""
+city_cname = ""
+# print(time.ctime(current_time))
+# Very Strictly Naive Code Ahead for caching i have no idea how it works 
+
+def getData(city_name, city_cname, cached_response, time_to_live): # current variables and data are input
+    current_time = time.time() # we set current time 
+    if (current_time >= time_to_live): # time to live is given by input then we perform checks
+        url = "http://api.openweathermap.org/data/2.5/weather?q={}&appid={}".format(city_name, api_key)
+        r = requests.get(url)
+        #print(r)
+        #print(r.json())
+        response = r.json()
+        city_cname = city_name # cached city name
+        time_to_live = current_time + cache_time # we define new time so that new data is cached 
+        cached_response = response # we have response stored in a cached vaariable
+        return(response, city_cname, cached_response, current_time, time_to_live) # these terms are redefined to update changes
+    elif ((current_time < time_to_live) and (city_name == city_cname)):
+        print("Serving Cache") # we dont update the time to live here since we are using the cache
+        return(cached_response, city_cname, cached_response, current_time, time_to_live) # the time to live is the same as in input
+    elif ((current_time < time_to_live) and (city_name != city_cname)): # If city name is changed we need to make new request
+        url = "http://api.openweathermap.org/data/2.5/weather?q={}&appid={}".format(city_name, api_key)
+        r = requests.get(url)
+        #print(r)
+        #print(r.json())
+        response = r.json()
+        city_cname = city_name
+        time_to_live = current_time + cache_time # we update time to live here as new data is cached
+        cached_response = response
+        return(response, city_cname, cached_response, current_time, time_to_live)
+        
+def truncate(f, n): # taken from https://stackoverflow.com/a/783927/13331594
+    '''Truncates/pads a float f to n decimal places without rounding'''
+    s = '{}'.format(f)
+    if 'e' in s or 'E' in s:
+        return '{0:.{1}f}'.format(f, n)
+    i, p, d = s.partition('.')
+    return '.'.join([i, (d+'0'*n)[:n]])
+
+def getIconVariable(icon_id): # OWM gives icons in the format "10n" which arent proper variable names in python, 
+    icon_id = str(icon_id) #    this function changes the name to be more pythonic
+    new_icon_id_0 = icon_id[0] #it changes from "10d" to "d10", yes it always is 3 digits
+    new_icon_id_1 = icon_id[1]
+    new_icon_id_2 = icon_id[2]
+    icon_id_n = str(new_icon_id_2 + new_icon_id_0 + new_icon_id_1)
+    return(icon_id_n)
+
+def getIconData(icon_id_pythonic): # this returns the icon data in Base64 from another file(dict) that is imported
+    return(icondict[icon_id_pythonic])
+
+def getTempratureReadout(temp_in):
+    tempratureK = str(temp_in) + " Kelvin"  # data formatting
+    tempratureCpreFormat = float(temp_in) - float(273.15)
+    tempratureC = str(truncate(tempratureCpreFormat, 3)) + "°C"
+    temprature = tempratureC
+    return(temprature)
+
+
+
+layout = [
+    [sg.T("Enter Location: "), sg.In(key='cityI', size=(15,1))],
+    [sg.B("Show"), sg.Quit()],
+    [sg.T("")],
+    [sg.T("Cur. Time[SYS]: ",size=(17,1)), sg.T(size=(8,1), key='current_time')],
+    [sg.T("Cache Valid[SYS]: ",size=(17,1)), sg.T(size=(8,1), key='ttl')],
+    [sg.T("Icon[SYS+API]:",size=(17,1)),sg.Image(data=logo, background_color=image_background, key='icon'), sg.T("")], # there is a logo to prevent the window from being out of alignment when no request has been made
+    [sg.T("Location[API]: ",size=(17,1)), sg.T(size=(12,1),key='cityT')], 
+    [sg.T("Temp. [API]: ",size=(17,1)), sg.T(size=(12,1),key='temp')],
+    [sg.T("Temp. Feels[API]: ",size=(17,1)), sg.T(size=(12,1),key='tempfeels')],
+    [sg.T("Temp. Max[API]: ",size=(17,1)), sg.T(size=(12,1),key='tempmax')],
+    [sg.T("Temp. Min[API]: ",size=(17,1)), sg.T(size=(12,1),key='tempmin')],
+    [sg.T("Pressure[API]: ",size=(17,1)), sg.T(size=(12,1),key='pres')],
+    [sg.T("Humidity[API]: ",size=(17,1)), sg.T(size=(12,1),key='hum')],
+    [sg.T("Main Desc.[API]: ",size=(17,1)), sg.T(size=(12,1),key='main')],
+    [sg.T("Add. Desc.[API]: ",size=(17,1)), sg.T(size=(12,1),key='desc')],
+    [sg.T("WindSpeed[API]: ",size=(17,1)), sg.T(size=(12,1),key='wspeed')],
+    [sg.T("WindDeg[API]: ",size=(17,1)), sg.T(size=(12,1),key='wdeg')],
+    [sg.T("Latitude[API]: ",size=(17,1)), sg.T(size=(12,1),key='lat')],
+    [sg.T("longitude[API]: ",size=(17,1)), sg.T(size=(12,1),key='lon')],
+    [sg.B('Quit',key='Quit_alt')]
+    
+
+] # this is the GUI layout for the window
+
+window = sg.Window("DevParapalli Weather OWM", layout, no_titlebar=False, grab_anywhere=True, location=(0,0)) # define Window Object
+
+while True:  # Event Loop
+    event, values = window.read()       # can also be written as event, values = window()
+    print(event, values) # debugging, do not remove
+    if event in (None, 'Quit', 'Quit_alt'): # if close button is pressed
+        break
+    if event == 'Show': # If button is pressed
+        try:
+            # change the "output" element to be the value of "input" element's API's coresponding response
+            city_name = values['cityI']
+            response, city_cname, cached_response, current_time, time_to_live  = getData(city_name, city_cname, cached_response, time_to_live)
+            #print(response)            
+            pressure = str(response['main']['pressure']) + " hPa" # data formatting
+            humidity = str(response['main']['humidity']) + " %" # data formatting
+            main_desc = str(response['weather'][0]['main'])
+            description = str(response['weather'][0]["description"])
+            icon_details = getIconData(getIconVariable(str(response['weather'][0]["icon"]))) # i am high as a kite
+            window['current_time'](time.ctime(current_time)[11:19])
+            window['ttl'](time.ctime(time_to_live)[11:19])
+            window.Element('icon').Update(data=icon_details)
+            window['cityT'](response['name']) # thisis the short form of the update function            
+            print(getTempratureReadout(response['main']['temp'])) # debugging main function code
+            window['temp'](getTempratureReadout(response['main']['temp']))
+            window['tempmin'](getTempratureReadout(response['main']['temp_min']))
+            window['tempmax'](getTempratureReadout(response['main']['temp_max']))
+            window['tempfeels'](getTempratureReadout(response['main']['feels_like']))
+            window['pres'](pressure)
+            window['hum'](humidity)
+            window['main'](main_desc)
+            window['desc'](description)
+            window['wspeed'](str(response['wind']['speed']) + " m/s")
+            window['wdeg'](str(response['wind']['deg']) + "°")
+            window['lat'](str(response['coord']['lat']) + " °N")
+            window['lon'](str(response['coord']['lon']) + " °E")
+        except :
+            sg.PopupError("Malformed Request/Network Error", "Press \"Error\" Button to continue")
+
+

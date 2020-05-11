@@ -1,9 +1,9 @@
 import requests
-import PySimpleGUIQt as sg
+import PySimpleGUI as sg
 import time 
 import sys
-from icons import icondict as icon
-from logo import logo as logo
+from t_icons import icondict as icon
+from t_logo import logo as logo
 '''
 See files put along with this .py for more insight
 
@@ -130,7 +130,7 @@ layout = [
 
 ] # this is the GUI layout for the window
 
-window = sg.Window("DevParapalli Weather OWM", layout, no_titlebar=True, grab_anywhere=True, web_port=42069) # define Window Object
+window = sg.Window("DevParapalli Weather OWM", layout, no_titlebar=True, grab_anywhere=True) # define Window Object
 
 while True:  # Event Loop
     event, values = window.read()       # can also be written as event, values = window()

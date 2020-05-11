@@ -1,11 +1,9 @@
 import pip
 import tkinter
-
+import subprocess
+import sys
 def install(package):
-    if hasattr(pip, 'main'):
-        pip.main(['install', package])
-    else:
-        pip._internal.main(['install', package])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
 
 try: 
     import requests
@@ -13,7 +11,7 @@ except ImportError:
     install("requests")
 
 try: 
-    import PySimpleGUIQt
+    import PySimpleGUI
 except ImportError:
     install("PySimpleGUI")
 
@@ -30,8 +28,8 @@ except:
     exit()
 
 try:
-    import internal
+    import t_internal
 except KeyError:
-    print("GUI_API not found")
+    print("tkinter_GUI_API not found")
     exit()
 

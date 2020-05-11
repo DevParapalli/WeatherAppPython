@@ -1,5 +1,5 @@
 import requests
-import PySimpleGUI as sg
+import PySimpleGUIQt as sg
 import time 
 import sys
 from icons import icondict as icon

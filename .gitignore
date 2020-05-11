@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 # for distribution to private entites
 .zip
+*.zip
