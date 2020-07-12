@@ -3,8 +3,8 @@ import PySimpleGUI as sg
 import time 
 import sys
 import ast
-from t_icons import icondict as icon
-from t_logo import logo as logo
+from icons import icondict as icon
+from logo import logo
 '''
 See files put along with this .py for more insight
 

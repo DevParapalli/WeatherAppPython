@@ -126,7 +126,7 @@ layout = [
     [sg.T("WindSpeed[API]: ",size=(29,1)), sg.T(size=(24,1),key='wspeed')],
     [sg.T("WindDeg[API]: ",size=(29,1)), sg.T(size=(24,1),key='wdeg')],
     [sg.T("Latitude[API]: ",size=(29,1)), sg.T(size=(24,1),key='lat')],
-    [sg.T("longitude[API]: ",size=(29,1)), sg.T(size=(24,1),key='lon')],
+    [sg.T("longitude[API]: ",size=(29,1)), sg.T(size=(24,1),key='lon')], # This is layout defined. 
     
     
 
