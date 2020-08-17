@@ -1,4 +1,3 @@
-import pip
 import tkinter
 import subprocess
 import sys
@@ -28,8 +27,8 @@ except:
     exit()
 
 try:
-    import t_internal
-except KeyError:
+    import internal_script
+except :
     print("tkinter_GUI_API not found")
     exit()
 

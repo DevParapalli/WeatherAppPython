@@ -1,8 +1,15 @@
-import requests
-import PySimpleGUI as sg
+import ast
+options_file = ast.literal_eval(open("options.txt", "r").read())
+choice = options_file['mode']
+if choice == "tkinter":
+    import PySimpleGUI as sg
+elif choice == "remi":
+    import PySimpleGUIWeb as sg
+elif choice == "pyqt":
+    import PySimpleGUIQt as sg
 import time 
 import sys
-import ast
+import requests
 from icons import icondict as icon
 from logo import logo
 '''
@@ -38,17 +45,16 @@ sg.theme('DarkMode')
 # Define Custom Functions
 
 #Define Constants for Request.
-api_key_file = ast.literal_eval(open("api-key.txt", "r").read()) #change this later
-api_key = api_key_file["api-key"] #change this later
+api_key = options_file["api-key"] #change this later
 # define time variable for caching
-cache_time = 300.0 # seconds but in float cuz time is in float
+cache_time = 120.0 # seconds but in float cuz time is in float
 
 current_time = time.time()
 time_to_live = current_time + cache_time
 cached_response = ""
 city_cname = ""
 # print(time.ctime(current_time))
-# Very Strictly Naive Code Ahead for caching i have no idea how it works 
+# Very Strictly Naive Code Ahead for caching
 
 def getData(city_name, city_cname, cached_response, time_to_live): # current variables and data are input
     current_time = time.time() # we set current time 
@@ -84,7 +90,7 @@ def truncate(f, n): # taken from https://stackoverflow.com/a/783927/13331594
     i, p, d = s.partition('.')
     return '.'.join([i, (d+'0'*n)[:n]])
 
-def getIconVariable(icon_id): # OWM gives icons in the format "10n" which arent proper variable names in python, 
+def getIconVariable(icon_id): # OWM gives icons in the format "10n" which are not proper variable names in python, 
     icon_id = str(icon_id) #    this function changes the name to be more pythonic
     new_icon_id_0 = icon_id[0] #it changes from "10d" to "d10", yes it always is 3 digits
     new_icon_id_1 = icon_id[1]
@@ -95,14 +101,15 @@ def getIconVariable(icon_id): # OWM gives icons in the format "10n" which arent 
 def getIconData(icon_id_pythonic): # this returns the icon data in Base64 from another file(dict) that is imported
     return(icon[icon_id_pythonic])
 
-def getTempratureReadout(temp_in):
-    tempratureK = str(temp_in) + " Kelvin"  # data formatting
-    tempratureCpreFormat = float(temp_in) - float(273.15)
-    tempratureC = str(truncate(tempratureCpreFormat, 3)) + "°C"
-    temprature = tempratureK + " OR " + tempratureC
-    return(temprature)
+def getTemperatureReadout(temp_in):
+    TemperatureK = str(temp_in) + " Kelvin"  # data formatting
+    TemperatureCpreFormat = float(temp_in) - float(273.15)
+    TemperatureC = str(truncate(TemperatureCpreFormat, 3)) + "°C"
+    Temperature = TemperatureK + " OR " + TemperatureC
+    return(Temperature)
 
-
+class cityNameCannotBeEmpty(Exception):
+    pass
 
 layout = [
     [sg.T("Enter Location: "), sg.In(key='cityI')],
@@ -115,10 +122,10 @@ layout = [
     [sg.T("DateAtLocation[API]: ",size=(29,1)), sg.T(size=(24,1),key='locDate')],
     [sg.T("Sunrise[API]: ",size=(29,1)), sg.T(size=(24,1),key='timerise')],
     [sg.T("Sunset[API]: ",size=(29,1)), sg.T(size=(24,1),key='timeset')],
-    [sg.T("Temprature[API]: ",size=(29,1)), sg.T(size=(24,1),key='temp')],
-    [sg.T("TempratureFeels[API]: ",size=(29,1)), sg.T(size=(24,1),key='tempfeels')],
-    [sg.T("TempratureMax[API]: ",size=(29,1)), sg.T(size=(24,1),key='tempmax')],
-    [sg.T("TempratureMin[API]: ",size=(29,1)), sg.T(size=(24,1),key='tempmin')],
+    [sg.T("Temperature[API]: ",size=(29,1)), sg.T(size=(24,1),key='temp')],
+    [sg.T("TemperatureFeels[API]: ",size=(29,1)), sg.T(size=(24,1),key='tempfeels')],
+    [sg.T("TemperatureMax[API]: ",size=(29,1)), sg.T(size=(24,1),key='tempmax')],
+    [sg.T("TemperatureMin[API]: ",size=(29,1)), sg.T(size=(24,1),key='tempmin')],
     [sg.T("Pressure[API]: ",size=(29,1)), sg.T(size=(24,1),key='pres')],
     [sg.T("Humidity[API]: ",size=(29,1)), sg.T(size=(24,1),key='hum')],
     [sg.T("Main Description[API]: ",size=(29,1)), sg.T(size=(24,1),key='main')],
@@ -132,7 +139,10 @@ layout = [
 
 ] # this is the GUI layout for the window
 
-window = sg.Window("DevParapalli Weather OWM", layout, no_titlebar=True, grab_anywhere=True) # define Window Object
+if choice == "remi": window = sg.Window("DevParapalli Weather OWM - REMI", layout, no_titlebar=True, grab_anywhere=True, web_port=42069)
+elif choice == "tkinter": window = sg.Window("DevParapalli Weather OWM - Tkinter", layout, no_titlebar=True, grab_anywhere=True)
+elif choice == "pyqt": window = sg.Window("DevParapalli Weather OWM - PyQt", layout)
+else: window = sg.Window("DevParapalli Weather OWM - Else", layout, no_titlebar=True, grab_anywhere=True)
 
 while True:  # Event Loop
     event, values = window.read()       # can also be written as event, values = window()
@@ -143,7 +153,10 @@ while True:  # Event Loop
         try:
             # change the "output" element to be the value of "input" element's API's coresponding response
             city_name = values['cityI']
-            response, city_cname, cached_response, current_time, time_to_live  = getData(city_name, city_cname, cached_response, time_to_live)
+            if city_name == "":
+                print("City Name Cannot be Empty")
+                raise cityNameCannotBeEmpty("City Name Cannot be Empty")
+            response, city_cname, cached_response, current_time, time_to_live  = getData(city_name, city_cname, cached_response, time_to_live) # updates and refreshes all values.
             #print(response)            
             pressure = str(response['main']['pressure']) + " hPa" # data formatting
             humidity = str(response['main']['humidity']) + " %" # data formatting
@@ -153,16 +166,16 @@ while True:  # Event Loop
             window['current_time'](time.ctime(current_time))
             window['ttl'](time.ctime(time_to_live))
             window.Element('icon').Update(data=icon_details)
-            window['cityT'](response['name']) # thisis the short form of the update function
+            window['cityT'](response['name']) # this is the short form of the update function
             window['locDate'](time.ctime(response['dt']))
             window['timerise'](time.ctime(response['sys']['sunrise']))
             window['timeset'](time.ctime(response['sys']['sunset']))
             
-            print(getTempratureReadout(response['main']['temp']))
-            window['temp'](getTempratureReadout(response['main']['temp']))
-            window['tempmin'](getTempratureReadout(response['main']['temp_min']))
-            window['tempmax'](getTempratureReadout(response['main']['temp_max']))
-            window['tempfeels'](getTempratureReadout(response['main']['feels_like']))
+            print(getTemperatureReadout(response['main']['temp']))
+            window['temp'](getTemperatureReadout(response['main']['temp']))
+            window['tempmin'](getTemperatureReadout(response['main']['temp_min']))
+            window['tempmax'](getTemperatureReadout(response['main']['temp_max']))
+            window['tempfeels'](getTemperatureReadout(response['main']['feels_like']))
             window['pres'](pressure)
             window['hum'](humidity)
             window['main'](main_desc)
@@ -171,7 +184,8 @@ while True:  # Event Loop
             window['wdeg'](str(response['wind']['deg']) + "°")
             window['lat'](str(response['coord']['lat']) + " °N")
             window['lon'](str(response['coord']['lon']) + " °E")
-        except :
+        except cityNameCannotBeEmpty:
+            sg.PopupError("City Name Cannot Be Empty")
+        except:
             sg.PopupError("Malformed Request/Network Error", "Press \"Error\" Button to continue")
-
 

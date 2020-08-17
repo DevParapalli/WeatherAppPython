@@ -21,14 +21,19 @@ except ImportError:
     print("PySimpleGUI module not installed")
     print("Installing PySimpleGUI")
     install("PySimpleGUI")
-# printing menu
-def load_data(): # removed data
-    pass
+
+if "\\" in sys.argv[0] or "/" in sys.argv[0]: 
+    print("Script is running from Absolute Path")
+    head, tail = os.path.split(sys.argv[0])
+    os.chdir(head)
+elif "\\" not in sys.argv[0] or "/" not in sys.argv[0]:
+    print("Script is running from CWD")
+
 
 print("-----------------------------------------")
 print("DevParapalli App Launcher")
 print("Procedurally generating buttons")
-load_data()
+
 print("Loading Icons and Images")
 
 
@@ -61,11 +66,8 @@ icondict = {
 }
 
 
-load_data()
-print("Looking up C.I.A. Identifier")
-load_data()
+
 print("Hold Tight - Loading Application.")
-load_data()
 print("Finished Lookup")
 time.sleep(1)
 print("Launching Application")
@@ -105,7 +107,7 @@ sg.theme('DarkMode')
 api_key_file = ast.literal_eval(open("api-key.txt", "r").read()) #change this later
 api_key = api_key_file["api-key"]
 # define time variable for caching
-cache_time = 300.0 # seconds but in float cuz time is in float
+cache_time = 120.0 # seconds but in float cuz time is in float
 
 current_time = time.time()
 time_to_live = current_time + cache_time
@@ -159,14 +161,15 @@ def getIconVariable(icon_id): # OWM gives icons in the format "10n" which arent 
 def getIconData(icon_id_pythonic): # this returns the icon data in Base64 from another file(dict) that is imported
     return(icondict[icon_id_pythonic])
 
-def getTempratureReadout(temp_in):
-    tempratureK = str(temp_in) + " Kelvin"  # data formatting
-    tempratureCpreFormat = float(temp_in) - float(273.15)
-    tempratureC = str(truncate(tempratureCpreFormat, 3)) + "°C"
-    temprature = tempratureC
-    return(temprature)
+def getTemperatureReadout(temp_in):
+    TemperatureK = str(temp_in) + " Kelvin"  # data formatting
+    TemperatureCpreFormat = float(temp_in) - float(273.15)
+    TemperatureC = str(truncate(TemperatureCpreFormat, 3)) + "°C"
+    Temperature = TemperatureC
+    return(Temperature)
 
-
+class cityNameCannotBeEmpty(Exception):
+    pass
 
 layout = [
     [sg.T("Enter Location: "), sg.In(key='cityI', size=(15,1))],
@@ -193,7 +196,7 @@ layout = [
 
 ] # this is the GUI layout for the window
 
-window = sg.Window("DevParapalli Weather OWM", layout, no_titlebar=False, grab_anywhere=True, location=(0,0)) # define Window Object
+window = sg.Window("DevParapalli Weather OWM", layout, no_titlebar=False, grab_anywhere=False, location=(0,0)) # define Window Object
 
 while True:  # Event Loop
     event, values = window.read()       # can also be written as event, values = window()
@@ -204,6 +207,9 @@ while True:  # Event Loop
         try:
             # change the "output" element to be the value of "input" element's API's coresponding response
             city_name = values['cityI']
+            if city_name == "": 
+                print("City Name cannot be Empty")
+                raise cityNameCannotBeEmpty("City Name cannot be Empty")
             response, city_cname, cached_response, current_time, time_to_live  = getData(city_name, city_cname, cached_response, time_to_live)
             #print(response)            
             pressure = str(response['main']['pressure']) + " hPa" # data formatting
@@ -215,11 +221,11 @@ while True:  # Event Loop
             window['ttl'](time.ctime(time_to_live)[11:19])
             window.Element('icon').Update(data=icon_details)
             window['cityT'](response['name']) # thisis the short form of the update function            
-            print(getTempratureReadout(response['main']['temp'])) # debugging main function code
-            window['temp'](getTempratureReadout(response['main']['temp']))
-            window['tempmin'](getTempratureReadout(response['main']['temp_min']))
-            window['tempmax'](getTempratureReadout(response['main']['temp_max']))
-            window['tempfeels'](getTempratureReadout(response['main']['feels_like']))
+            print(getTemperatureReadout(response['main']['temp'])) # debugging main function code
+            window['temp'](getTemperatureReadout(response['main']['temp']))
+            window['tempmin'](getTemperatureReadout(response['main']['temp_min']))
+            window['tempmax'](getTemperatureReadout(response['main']['temp_max']))
+            window['tempfeels'](getTemperatureReadout(response['main']['feels_like']))
             window['pres'](pressure)
             window['hum'](humidity)
             window['main'](main_desc)
@@ -228,7 +234,9 @@ while True:  # Event Loop
             window['wdeg'](str(response['wind']['deg']) + "°")
             window['lat'](str(response['coord']['lat']) + " °N")
             window['lon'](str(response['coord']['lon']) + " °E")
-        except :
+        except cityNameCannotBeEmpty:
+            sg.PopupError("City Name Cannot Be Empty")
+        except:
             sg.PopupError("Malformed Request/Network Error", "Press \"Error\" Button to continue")
 
 
